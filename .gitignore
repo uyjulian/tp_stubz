@@ -1,0 +1,4 @@
+common_ppdefs.rc
+*.o
+*.dll
+*.exe
