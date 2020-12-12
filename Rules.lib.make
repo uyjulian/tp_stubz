@@ -21,13 +21,14 @@ ALLSRCFLAGS += $(INCFLAGS) -DGIT_TAG=\"$(GIT_TAG)\"
 ASMFLAGS += $(ALLSRCFLAGS) -fwin32 -DWIN32
 OPTFLAGS := -march=pentium4 -mfpmath=sse -Ofast
 CFLAGS += -gstabs
-CFLAGS += -flto -fcommon
+CFLAGS += -flto
 CFLAGS += -fPIC
 CFLAGS += $(ALLSRCFLAGS) -Wall -Wno-unused-value -Wno-format -DNDEBUG -DWIN32 -D_WIN32 -D_WINDOWS 
 CFLAGS += -D_USRDLL -DMINGW_HAS_SECURE_API -DUNICODE -D_UNICODE -DNO_STRICT
 CXXFLAGS += $(CFLAGS) -fpermissive
 WINDRESFLAGS += $(ALLSRCFLAGS) --codepage=65001
-LDFLAGS += -static -static-libstdc++ -static-libgcc -Wl,--kill-at
+LDFLAGS += -static -static-libstdc++ -static-libgcc -Wl,--kill-at -fPIC
+LDFLAGS += -Wl,-allow-multiple-definition
 LDFLAGS_LIB += -shared
 LDLIBS += 
 
