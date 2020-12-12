@@ -8,17 +8,18 @@
 #############################################
 
 TP_STUB_BASE ?= external/tp_stubz/
-CC = i686-w64-mingw32-gcc
-CXX = i686-w64-mingw32-g++
+TOOL_TRIPLET_PREFIX ?= i686-w64-mingw32-
+CC := $(TOOL_TRIPLET_PREFIX)gcc
+CXX := $(TOOL_TRIPLET_PREFIX)g++
 ASM := /Users/julian/Downloads/nasm-2.14.03rc2/nasm
-WINDRES := i686-w64-mingw32-windres
-STRIP := i686-w64-mingw32-strip
+WINDRES := $(TOOL_TRIPLET_PREFIX)windres
+STRIP := $(TOOL_TRIPLET_PREFIX)strip
 7Z := 7z
 GIT_TAG := $(shell git describe --abbrev=0 --tags)
 INCFLAGS += -I$(TP_STUB_BASE) -I.
 ALLSRCFLAGS += $(INCFLAGS) -DGIT_TAG=\"$(GIT_TAG)\"
 ASMFLAGS += $(ALLSRCFLAGS) -fwin32 -DWIN32
-OPTFLAGS := -Ofast
+OPTFLAGS := -march=pentium4 -mfpmath=sse -Ofast
 CFLAGS += -gstabs 
 CFLAGS += $(ALLSRCFLAGS) -Wall -Wno-unused-value -Wno-format -DNDEBUG -DWIN32 -D_WIN32 -D_WINDOWS 
 CFLAGS += -D_USRDLL -DMINGW_HAS_SECURE_API -DUNICODE -D_UNICODE -DNO_STRICT
