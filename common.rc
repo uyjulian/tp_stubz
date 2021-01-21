@@ -10,7 +10,7 @@
 #include "windows.h"
 #include "common_ppdefs.rc"
 
-#define MACRO_TO_STRING(x) #x
+#define MACRO_TO_STRING(x) x
 
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 

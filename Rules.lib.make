@@ -15,9 +15,9 @@ ASM := /Users/julian/Downloads/nasm-2.14.03rc2/nasm
 WINDRES := $(TOOL_TRIPLET_PREFIX)windres
 STRIP := $(TOOL_TRIPLET_PREFIX)strip
 7Z := 7z
-GIT_TAG := $(shell git describe --abbrev=0 --tags)
+export GIT_TAG := $(shell git describe --abbrev=0 --tags)
 INCFLAGS += -I$(TP_STUB_BASE) -I.
-ALLSRCFLAGS += $(INCFLAGS) -DGIT_TAG=\"$(GIT_TAG)\"
+ALLSRCFLAGS += $(INCFLAGS)
 ASMFLAGS += $(ALLSRCFLAGS) -fwin32 -DWIN32
 OPTFLAGS := -march=pentium4 -mfpmath=sse -Ofast
 CFLAGS += -gstabs
@@ -77,7 +77,7 @@ clean:
 $(TP_STUB_BASE)/common.rc: $(TP_STUB_BASE)/common_ppdefs.rc
 
 $(TP_STUB_BASE)/common_ppdefs.rc:
-	@printf '#define RC_URL \"%s\"\n#define RC_COMMENTS \"%s\"\n#define RC_DESC \"%s\"\n#define RC_INTERNALNAME \"%s\"\n#define RC_LEGALCOPYRIGHT \"%s\"\n#define RC_ORIGINALFILENAME \"%s\"\n#define RC_PRODUCTNAME \"%s\"\n'  "$${RC_URL}" "$${RC_COMMENTS}" "$${RC_DESC}" "$${RC_INTERNALNAME}" "$${RC_LEGALCOPYRIGHT}" "$${RC_ORIGINALFILENAME}" "$${RC_PRODUCTNAME}" > $@
+	@printf '#define RC_URL \"%s\"\n#define RC_COMMENTS \"%s\"\n#define RC_DESC \"%s\"\n#define RC_INTERNALNAME \"%s\"\n#define RC_LEGALCOPYRIGHT \"%s\"\n#define RC_ORIGINALFILENAME \"%s\"\n#define RC_PRODUCTNAME \"%s\"\n#define GIT_TAG \"%s\"\n'  "$${RC_URL}" "$${RC_COMMENTS}" "$${RC_DESC}" "$${RC_INTERNALNAME}" "$${RC_LEGALCOPYRIGHT}" "$${RC_ORIGINALFILENAME}" "$${RC_PRODUCTNAME}" "$${GIT_TAG}" > $@
 
 $(ARCHIVE): $(BINARY_STRIPPED) LICENSE
 	@printf '\t%s %s\n' 7Z $@
