@@ -72,7 +72,7 @@ all: $(BINARY_STRIPPED)
 
 archive: $(ARCHIVE)
 
-clean:
+clean::
 	rm -f $(OBJECTS) $(OBJECTS_BIN) $(BINARY) $(BINARY_STRIPPED) $(ARCHIVE) $(TP_STUB_BASE)/common_ppdefs.rc
 
 $(TP_STUB_BASE)/common.rc: $(TP_STUB_BASE)/common_ppdefs.rc
