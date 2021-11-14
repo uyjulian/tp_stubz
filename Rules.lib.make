@@ -25,6 +25,7 @@ ifeq (x$(TARGET_ARCH),xintel32)
 OBJECT_EXTENSION ?= .o
 endif
 OBJECT_EXTENSION ?= .$(TARGET_ARCH).o
+DEP_EXTENSION ?= .dep.make
 export GIT_TAG := $(shell git describe --abbrev=0 --tags)
 INCFLAGS += -I$(TP_STUB_BASE) -I.
 ALLSRCFLAGS += $(INCFLAGS)
@@ -43,7 +44,7 @@ CFLAGS += -fPIC
 CFLAGS += -flto
 CFLAGS += $(ALLSRCFLAGS) -Wall -Wno-unused-value -Wno-format -DNDEBUG -DWIN32 -D_WIN32 -D_WINDOWS 
 CFLAGS += -D_USRDLL -DMINGW_HAS_SECURE_API -DUNICODE -D_UNICODE -DNO_STRICT
-CFLAGS += -MMD
+CFLAGS += -MMD -MF $(patsubst %$(OBJECT_EXTENSION),%$(DEP_EXTENSION),$@)
 CXXFLAGS += $(CFLAGS) -fpermissive
 WINDRESFLAGS += $(ALLSRCFLAGS) --codepage=65001
 LDFLAGS += $(OPTFLAGS) -static -static-libstdc++ -static-libgcc -Wl,--kill-at -fPIC
@@ -92,14 +93,14 @@ OBJECTS := $(SOURCES:.c=$(OBJECT_EXTENSION))
 OBJECTS := $(OBJECTS:.cpp=$(OBJECT_EXTENSION))
 OBJECTS := $(OBJECTS:.nas=$(OBJECT_EXTENSION))
 OBJECTS := $(OBJECTS:.rc=$(OBJECT_EXTENSION))
-DEPENDENCIES := $(OBJECTS:%$(OBJECT_EXTENSION)=%.d)
+DEPENDENCIES := $(OBJECTS:%$(OBJECT_EXTENSION)=%$(DEP_EXTENSION))
 
 all: $(BINARY_STRIPPED)
 
 archive: $(ARCHIVE)
 
 clean::
-	rm -f $(OBJECTS) $(OBJECTS_BIN) $(BINARY) $(BINARY_STRIPPED) $(ARCHIVE) $(TP_STUB_BASE)/common_ppdefs.rc
+	rm -f $(OBJECTS) $(OBJECTS_BIN) $(BINARY) $(BINARY_STRIPPED) $(ARCHIVE) $(TP_STUB_BASE)/common_ppdefs.rc $(DEPENDENCIES)
 
 $(TP_STUB_BASE)/common.rc: $(TP_STUB_BASE)/common_ppdefs.rc
 
