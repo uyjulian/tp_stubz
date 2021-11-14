@@ -9,6 +9,14 @@
 
 TP_STUB_BASE ?= external/tp_stubz/
 TARGET_ARCH ?= intel32
+USE_STABS_DEBUG ?= 0
+USE_POSITION_INDEPENDENT_CODE ?= 0
+ifeq (x$(TARGET_ARCH),xarm32)
+TOOL_TRIPLET_PREFIX ?= armv7-w64-mingw32-
+endif
+ifeq (x$(TARGET_ARCH),xarm64)
+TOOL_TRIPLET_PREFIX ?= aarch64-w64-mingw32-
+endif
 ifeq (x$(TARGET_ARCH),xintel64)
 TOOL_TRIPLET_PREFIX ?= x86_64-w64-mingw32-
 endif
@@ -35,12 +43,18 @@ ifeq (x$(TARGET_ARCH),xintel32)
 OPTFLAGS += -march=pentium4 -mfpmath=sse
 endif
 ifeq (x$(TARGET_ARCH),xintel32)
+ifneq (x$(USE_STABS_DEBUG),x0)
 CFLAGS += -gstabs
 else
 CFLAGS += -gdwarf-2
 endif
+else
+CFLAGS += -gdwarf-2
+endif
 
+ifneq (x$(USE_POSITION_INDEPENDENT_CODE),x0)
 CFLAGS += -fPIC
+endif
 CFLAGS += -flto
 CFLAGS += $(ALLSRCFLAGS) -Wall -Wno-unused-value -Wno-format -DNDEBUG -DWIN32 -D_WIN32 -D_WINDOWS 
 CFLAGS += -D_USRDLL -DMINGW_HAS_SECURE_API -DUNICODE -D_UNICODE -DNO_STRICT
