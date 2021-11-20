@@ -11,6 +11,7 @@ TP_STUB_BASE ?= external/tp_stubz/
 TARGET_ARCH ?= intel32
 USE_STABS_DEBUG ?= 0
 USE_POSITION_INDEPENDENT_CODE ?= 0
+USE_TVPSND ?= 0
 ifeq (x$(TARGET_ARCH),xarm32)
 TOOL_TRIPLET_PREFIX ?= armv7-w64-mingw32-
 endif
@@ -65,6 +66,10 @@ LDFLAGS += $(OPTFLAGS) -static -static-libstdc++ -static-libgcc -Wl,--kill-at -f
 LDFLAGS_LIB += -shared
 LDLIBS += 
 
+ifneq (x$(USE_TVPSND),x0)
+LDLIBS += -luuid
+endif
+
 %$(OBJECT_EXTENSION): %.c
 	@printf '\t%s %s\n' CC $<
 	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $<
@@ -103,6 +108,9 @@ export RC_PRODUCTNAME ?= $(PROJECT_BASENAME) Plugin for TVP(KIRIKIRI) (2/Z)
 WINDRESFLAGS +=  
 
 SOURCES += $(TP_STUB_BASE)/tp_stub.cpp $(TP_STUB_BASE)/common.rc
+ifneq (x$(USE_TVPSND),x0)
+SOURCES += $(TP_STUB_BASE)/tvpsnd.c
+endif
 OBJECTS := $(SOURCES:.c=$(OBJECT_EXTENSION))
 OBJECTS := $(OBJECTS:.cpp=$(OBJECT_EXTENSION))
 OBJECTS := $(OBJECTS:.nas=$(OBJECT_EXTENSION))
