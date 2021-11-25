@@ -27,6 +27,7 @@ CXX := $(TOOL_TRIPLET_PREFIX)g++
 AR := $(TOOL_TRIPLET_PREFIX)ar
 LD := $(TOOL_TRIPLET_PREFIX)ld
 ASM := nasm
+YACC := yacc
 WINDRES := $(TOOL_TRIPLET_PREFIX)windres
 STRIP := $(TOOL_TRIPLET_PREFIX)strip
 7Z := 7z
@@ -86,6 +87,10 @@ endif
 	@printf '\t%s %s\n' WINDRES $<
 	$(WINDRES) $(WINDRESFLAGS) $< $@
 
+%.c: %.y
+	@printf '\t%s %s\n' YACC $<
+	$(YACC) -o $@ $<
+
 PROJECT_BASENAME ?= unknown
 ifeq (x$(TARGET_ARCH),xintel32)
 BINARY ?= $(PROJECT_BASENAME)_unstripped.dll
@@ -111,7 +116,8 @@ SOURCES += $(TP_STUB_BASE)/tp_stub.cpp $(TP_STUB_BASE)/common.rc
 ifneq (x$(USE_TVPSND),x0)
 SOURCES += $(TP_STUB_BASE)/tvpsnd.c
 endif
-OBJECTS := $(SOURCES:.c=$(OBJECT_EXTENSION))
+OBJECTS := $(SOURCES:.y=$(OBJECT_EXTENSION))
+OBJECTS := $(OBJECTS:.c=$(OBJECT_EXTENSION))
 OBJECTS := $(OBJECTS:.cpp=$(OBJECT_EXTENSION))
 OBJECTS := $(OBJECTS:.nas=$(OBJECT_EXTENSION))
 OBJECTS := $(OBJECTS:.rc=$(OBJECT_EXTENSION))
@@ -122,7 +128,7 @@ all: $(BINARY_STRIPPED)
 archive: $(ARCHIVE)
 
 clean::
-	rm -f $(OBJECTS) $(OBJECTS_BIN) $(BINARY) $(BINARY_STRIPPED) $(ARCHIVE) $(TP_STUB_BASE)/common_ppdefs.rc $(DEPENDENCIES)
+	rm -f $(OBJECTS) $(OBJECTS_BIN) $(BINARY) $(BINARY_STRIPPED) $(ARCHIVE) $(TP_STUB_BASE)/common_ppdefs.rc $(DEPENDENCIES) $(patsubst %.y,%.c,$(filter %.y,$(SOURCES)))
 
 $(TP_STUB_BASE)/common.rc: $(TP_STUB_BASE)/common_ppdefs.rc
 
