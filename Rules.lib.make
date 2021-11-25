@@ -7,6 +7,8 @@
 ##                                         ##
 #############################################
 
+EXTRA_DIST ?= LICENSE
+
 TP_STUB_BASE ?= external/tp_stubz/
 TARGET_ARCH ?= intel32
 USE_STABS_DEBUG ?= 0
@@ -135,7 +137,7 @@ $(TP_STUB_BASE)/common.rc: $(TP_STUB_BASE)/common_ppdefs.rc
 $(TP_STUB_BASE)/common_ppdefs.rc:
 	@printf '#define RC_URL "%s"'"\n"'#define RC_COMMENTS "%s"'"\n"'#define RC_DESC "%s"'"\n"'#define RC_INTERNALNAME "%s"'"\n"'#define RC_LEGALCOPYRIGHT "%s"'"\n"'#define RC_ORIGINALFILENAME "%s"'"\n"'#define RC_PRODUCTNAME "%s"\n#define GIT_TAG "%s"'"\n"  "$${RC_URL}" "$${RC_COMMENTS}" "$${RC_DESC}" "$${RC_INTERNALNAME}" "$${RC_LEGALCOPYRIGHT}" "$${RC_ORIGINALFILENAME}" "$${RC_PRODUCTNAME}" "$${GIT_TAG}" > $@
 
-$(ARCHIVE): $(BINARY_STRIPPED) LICENSE
+$(ARCHIVE): $(BINARY_STRIPPED) $(EXTRA_DIST)
 	@printf '\t%s %s\n' 7Z $@
 	rm -f $(ARCHIVE)
 	$(7Z) a $@ $^
