@@ -104,11 +104,11 @@ endif
 BINARY_STRIPPED ?= $(PROJECT_BASENAME)_$(TARGET_ARCH).dll
 ARCHIVE ?= $(PROJECT_BASENAME).$(TARGET_ARCH).$(GIT_TAG).7z
 
-export RC_URL ?= https://github.com/uyjulian/$(PROJECT_BASENAME)
+export RC_URL ?= https://github.com/krkrz/$(PROJECT_BASENAME)
 export RC_COMMENTS ?= Source code for the latest version of this product is located on the World Wide Web at $(RC_URL)
 export RC_DESC ?= $(PROJECT_BASENAME) Plugin for TVP(KIRIKIRI) (2/Z)
 export RC_INTERNALNAME ?= $(PROJECT_BASENAME)
-export RC_LEGALCOPYRIGHT ?= Copyright (C) 2020-2021 Julian Uy; See details of license at license.txt, or the source code location.
+export RC_LEGALCOPYRIGHT ?= Copyright (C) 2020-2021; See details of license at license.txt, or the source code location.
 export RC_ORIGINALFILENAME ?= $(BINARY_STRIPPED)
 export RC_PRODUCTNAME ?= $(PROJECT_BASENAME) Plugin for TVP(KIRIKIRI) (2/Z)
 
