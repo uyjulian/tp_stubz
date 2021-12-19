@@ -14,6 +14,7 @@ TARGET_ARCH ?= intel32
 USE_STABS_DEBUG ?= 0
 USE_POSITION_INDEPENDENT_CODE ?= 0
 USE_TVPSND ?= 0
+USE_ARCHIVE_HAS_GIT_TAG ?= 0
 ifeq (x$(TARGET_ARCH),xarm32)
 TOOL_TRIPLET_PREFIX ?= armv7-w64-mingw32-
 endif
@@ -102,7 +103,10 @@ ifeq (x$(TARGET_ARCH),xintel32)
 BINARY_STRIPPED ?= $(PROJECT_BASENAME).dll
 endif
 BINARY_STRIPPED ?= $(PROJECT_BASENAME)_$(TARGET_ARCH).dll
+ifneq (x$(USE_ARCHIVE_HAS_GIT_TAG),x0)
 ARCHIVE ?= $(PROJECT_BASENAME).$(TARGET_ARCH).$(GIT_TAG).7z
+endif
+ARCHIVE ?= $(PROJECT_BASENAME).$(TARGET_ARCH).7z
 
 export RC_URL ?= https://github.com/krkrz/$(PROJECT_BASENAME)
 export RC_COMMENTS ?= Source code for the latest version of this product is located on the World Wide Web at $(RC_URL)
