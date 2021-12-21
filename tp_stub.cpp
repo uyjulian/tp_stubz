@@ -37,7 +37,11 @@ void * TVPGetImportFuncPtr(const char *name)
 		static const char *funcname = "void ::TVPThrowPluginUnboundFunctionError(const char *)";
 		if(!TVPFunctionExporter->QueryFunctionsByNarrowString(&funcname, &ptr, 1))
 		{
+#ifdef __GNUC__
+			__builtin_trap();
+#else
 			*(int*)0 = 0; // causes an error
+#endif
 		}
 		typedef void (__stdcall * __functype)(const char *);
 		((__functype)(ptr))(name);
