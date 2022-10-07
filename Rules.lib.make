@@ -43,7 +43,7 @@ export GIT_TAG := $(shell git describe --abbrev=0 --tags)
 INCFLAGS += -I$(TP_STUB_BASE) -I.
 ALLSRCFLAGS += $(INCFLAGS)
 ASMFLAGS += $(ALLSRCFLAGS) -fwin32 -DWIN32
-OPTFLAGS := -Ofast
+OPTFLAGS := -O3
 ifeq (x$(TARGET_ARCH),xintel32)
 OPTFLAGS += -march=pentium4 -mfpmath=sse
 endif
