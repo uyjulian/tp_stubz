@@ -91,12 +91,6 @@ DEPENDENCY_OUTPUT_DIRECTORY := $(abspath build-libraries)-$(TARGET_ARCH)
 
 INCFLAGS += -I$(DEPENDENCY_OUTPUT_DIRECTORY)/include
 
-$(DEPENDENCY_SOURCE_DIRECTORY):
-	mkdir -p $@
-
-$(DEPENDENCY_OUTPUT_DIRECTORY):
-	mkdir -p $@
-
 %$(OBJECT_EXTENSION): %.c
 	@printf '\t%s %s\n' CC $<
 	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $<
@@ -161,6 +155,12 @@ archive: $(ARCHIVE)
 clean::
 	rm -f $(OBJECTS) $(OBJECTS_BIN) $(BINARY) $(BINARY_STRIPPED) $(ARCHIVE) $(TP_STUB_BASE)/common_ppdefs.rc $(DEPENDENCIES) $(patsubst %.y,%.c,$(filter %.y,$(SOURCES)))
 	rm -rf $(DEPENDENCY_SOURCE_DIRECTORY) $(DEPENDENCY_BUILD_DIRECTORY) $(DEPENDENCY_OUTPUT_DIRECTORY)
+
+$(DEPENDENCY_SOURCE_DIRECTORY):
+	mkdir -p $@
+
+$(DEPENDENCY_OUTPUT_DIRECTORY):
+	mkdir -p $@
 
 $(TP_STUB_BASE)/common.rc: $(TP_STUB_BASE)/common_ppdefs.rc
 
