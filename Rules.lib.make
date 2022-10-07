@@ -25,6 +25,16 @@ ifeq (x$(TARGET_ARCH),xintel64)
 TOOL_TRIPLET_PREFIX ?= x86_64-w64-mingw32-
 endif
 TOOL_TRIPLET_PREFIX ?= i686-w64-mingw32-
+ifeq (x$(TARGET_ARCH),xarm32)
+TARGET_CMAKE_SYSTEM_PROCESSOR ?= arm
+endif
+ifeq (x$(TARGET_ARCH),xarm64)
+TARGET_CMAKE_SYSTEM_PROCESSOR ?= arm64
+endif
+ifeq (x$(TARGET_ARCH),xintel64)
+TARGET_CMAKE_SYSTEM_PROCESSOR ?= amd64
+endif
+TARGET_CMAKE_SYSTEM_PROCESSOR ?= i686
 CC := $(TOOL_TRIPLET_PREFIX)gcc
 CXX := $(TOOL_TRIPLET_PREFIX)g++
 AR := $(TOOL_TRIPLET_PREFIX)ar
@@ -74,6 +84,18 @@ LDLIBS +=
 ifneq (x$(USE_TVPSND),x0)
 LDLIBS += -luuid
 endif
+
+DEPENDENCY_SOURCE_DIRECTORY := $(abspath build-source)
+DEPENDENCY_BUILD_DIRECTORY := $(abspath build-$(TARGET_ARCH))
+DEPENDENCY_OUTPUT_DIRECTORY := $(abspath build-libraries)-$(TARGET_ARCH)
+
+INCFLAGS += -I$(DEPENDENCY_OUTPUT_DIRECTORY)/include
+
+$(DEPENDENCY_SOURCE_DIRECTORY):
+	mkdir -p $@
+
+$(DEPENDENCY_OUTPUT_DIRECTORY):
+	mkdir -p $@
 
 %$(OBJECT_EXTENSION): %.c
 	@printf '\t%s %s\n' CC $<
@@ -138,6 +160,7 @@ archive: $(ARCHIVE)
 
 clean::
 	rm -f $(OBJECTS) $(OBJECTS_BIN) $(BINARY) $(BINARY_STRIPPED) $(ARCHIVE) $(TP_STUB_BASE)/common_ppdefs.rc $(DEPENDENCIES) $(patsubst %.y,%.c,$(filter %.y,$(SOURCES)))
+	rm -rf $(DEPENDENCY_SOURCE_DIRECTORY) $(DEPENDENCY_BUILD_DIRECTORY) $(DEPENDENCY_OUTPUT_DIRECTORY)
 
 $(TP_STUB_BASE)/common.rc: $(TP_STUB_BASE)/common_ppdefs.rc
 
