@@ -53,6 +53,8 @@ export GIT_TAG := $(shell git describe --abbrev=0 --tags)
 INCFLAGS += -I$(TP_STUB_BASE) -I.
 ALLSRCFLAGS += $(INCFLAGS)
 ASMFLAGS += $(ALLSRCFLAGS) -fwin32 -DWIN32
+CSTDFLAGS ?= -std=gnu11
+CXXSTDFLAGS ?= -std=gnu++14
 OPTFLAGS := -O3
 ifeq (x$(TARGET_ARCH),xintel32)
 OPTFLAGS += -march=pentium4 -mfpmath=sse
@@ -93,11 +95,11 @@ INCFLAGS += -I$(DEPENDENCY_OUTPUT_DIRECTORY)/include
 
 %$(OBJECT_EXTENSION): %.c
 	@printf '\t%s %s\n' CC $<
-	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(CSTDFLAGS) $(OPTFLAGS) -o $@ $<
 
 %$(OBJECT_EXTENSION): %.cpp
 	@printf '\t%s %s\n' CXX $<
-	$(CXX) -c $(CXXFLAGS) $(OPTFLAGS) -o $@ $<
+	$(CXX) -c $(CXXFLAGS) $(CXXSTDFLAGS) $(OPTFLAGS) -o $@ $<
 
 %$(OBJECT_EXTENSION): %.nas
 	@printf '\t%s %s\n' ASM $<
