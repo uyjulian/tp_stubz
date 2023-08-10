@@ -167,7 +167,7 @@ $(DEPENDENCY_OUTPUT_DIRECTORY):
 $(TP_STUB_BASE)/common.rc: $(TP_STUB_BASE)/common_ppdefs.rc
 
 $(TP_STUB_BASE)/common_ppdefs.rc:
-	@printf '#define RC_URL "%s"'"\n"'#define RC_COMMENTS "%s"'"\n"'#define RC_DESC "%s"'"\n"'#define RC_INTERNALNAME "%s"'"\n"'#define RC_LEGALCOPYRIGHT "%s"'"\n"'#define RC_ORIGINALFILENAME "%s"'"\n"'#define RC_PRODUCTNAME "%s"\n#define GIT_TAG "%s"'"\n"  "$${RC_URL}" "$${RC_COMMENTS}" "$${RC_DESC}" "$${RC_INTERNALNAME}" "$${RC_LEGALCOPYRIGHT}" "$${RC_ORIGINALFILENAME}" "$${RC_PRODUCTNAME}" "$${GIT_TAG}" > $@
+	@printf '#define RC_URL "%-80s"'"\n"'#define RC_COMMENTS "%-80s"'"\n"'#define RC_DESC "%-80s"'"\n"'#define RC_INTERNALNAME "%-80s"'"\n"'#define RC_LEGALCOPYRIGHT "%-80s"'"\n"'#define RC_ORIGINALFILENAME "%-80s"'"\n"'#define RC_PRODUCTNAME "%-80s"\n#define GIT_TAG "%-80s"'"\n"  "$${RC_URL}" "$${RC_COMMENTS}" "$${RC_DESC}" "$${RC_INTERNALNAME}" "$${RC_LEGALCOPYRIGHT}" "$${RC_ORIGINALFILENAME}" "$${RC_PRODUCTNAME}" "$${GIT_TAG}" > $@
 
 $(ARCHIVE): $(BINARY_STRIPPED) $(EXTRA_DIST)
 	@printf '\t%s %s\n' 7Z $@
