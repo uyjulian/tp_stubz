@@ -196,7 +196,7 @@ $(BINARY_STRIPPED): $(BINARY)
 
 $(BINARY): $(BINARY_STATICLIB) $(TVPIF_OBJECTS)
 	@printf '\t%s %s\n' LNK $@
-	$(CXX) $(CFLAGS) $(LDFLAGS) $(LDFLAGS_LIB) -o $@ $^ $(LDLIBS)
+	$(CXX) $(CFLAGS) $(LDFLAGS) $(LDFLAGS_LIB) -o $@ -Wl,--whole-archive $^ -Wl,--no-whole-archive $(LDLIBS)
 
 $(BINARY_STATICLIB): $(OBJECTS)
 	@printf '\t%s %s\n' AR $@
